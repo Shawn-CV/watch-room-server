@@ -280,13 +280,12 @@ export class WatchRoomServer {
         });
       });
 
-      // 语音音频数据中转（server-only 模式）
+      // 语音音频数据中转（volatile: 网络拥塞时丢弃而非排队）
       socket.on('voice:audio-chunk', (data) => {
         const roomInfo = this.socketToRoom.get(socket.id);
         if (!roomInfo) return;
 
-        // 将音频数据广播给同房间的其他成员
-        socket.to(roomInfo.roomId).emit('voice:audio-chunk', {
+        socket.volatile.to(roomInfo.roomId).emit('voice:audio-chunk', {
           userId: socket.id,
           audioData: data.audioData,
           sampleRate: data.sampleRate,
