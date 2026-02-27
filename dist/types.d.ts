@@ -97,6 +97,9 @@ export interface ServerToClientEvents {
         audioData: number[];
         sampleRate?: number;
     }) => void;
+    'voice:strategy-change': (data: {
+        strategy: 'webrtc-fallback' | 'server-only';
+    }) => void;
     'state:cleared': () => void;
     'heartbeat:pong': (data: {
         timestamp: number;
@@ -155,6 +158,9 @@ export interface ClientToServerEvents {
         roomId: string;
         audioData: number[];
         sampleRate?: number;
+    }) => void;
+    'voice:strategy-change': (data: {
+        strategy: 'webrtc-fallback' | 'server-only';
     }) => void;
     'state:clear': (callback?: (response: {
         success: boolean;

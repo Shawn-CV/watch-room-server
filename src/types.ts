@@ -91,6 +91,7 @@ export interface ServerToClientEvents {
   'voice:ice': (data: { userId: string; candidate: RTCIceCandidateInit }) => void;
   'voice:mic-enabled': (data: { userId: string }) => void;
   'voice:audio-chunk': (data: { userId: string; audioData: number[]; sampleRate?: number }) => void;
+  'voice:strategy-change': (data: { strategy: 'webrtc-fallback' | 'server-only' }) => void;
   'state:cleared': () => void;
   'heartbeat:pong': (data: { timestamp: number }) => void;
   error: (message: string) => void;
@@ -137,6 +138,7 @@ export interface ClientToServerEvents {
   'voice:ice': (data: { targetUserId: string; candidate: RTCIceCandidateInit }) => void;
   'voice:mic-enabled': () => void;
   'voice:audio-chunk': (data: { roomId: string; audioData: number[]; sampleRate?: number }) => void;
+  'voice:strategy-change': (data: { strategy: 'webrtc-fallback' | 'server-only' }) => void;
 
   'state:clear': (callback?: (response: { success: boolean; error?: string }) => void) => void;
 

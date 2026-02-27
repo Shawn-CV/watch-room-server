@@ -212,6 +212,14 @@ export class WatchRoomServer {
                     userId: socket.id,
                 });
             });
+            socket.on('voice:strategy-change', (data) => {
+                const roomInfo = this.socketToRoom.get(socket.id);
+                if (!roomInfo || !roomInfo.isOwner)
+                    return;
+                this.io.to(roomInfo.roomId).emit('voice:strategy-change', {
+                    strategy: data.strategy,
+                });
+            });
             socket.on('voice:audio-chunk', (data) => {
                 const roomInfo = this.socketToRoom.get(socket.id);
                 if (!roomInfo)

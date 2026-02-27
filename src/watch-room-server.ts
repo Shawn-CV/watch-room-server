@@ -269,6 +269,17 @@ export class WatchRoomServer {
         });
       });
 
+      // 语音策略切换（仅房主可操作，广播给全房间）
+      socket.on('voice:strategy-change', (data) => {
+        const roomInfo = this.socketToRoom.get(socket.id);
+        if (!roomInfo || !roomInfo.isOwner) return;
+
+        // 广播给房间内所有成员（包括房主自己）
+        this.io.to(roomInfo.roomId).emit('voice:strategy-change', {
+          strategy: data.strategy,
+        });
+      });
+
       // 语音音频数据中转（server-only 模式）
       socket.on('voice:audio-chunk', (data) => {
         const roomInfo = this.socketToRoom.get(socket.id);
