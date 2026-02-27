@@ -14,40 +14,27 @@
 - 🏠 房间管理（创建/加入/密码保护）
 - 🔄 心跳检测与自动清理
 
-## 快速部署
-
-### 一键 Docker 部署（推荐）
-
-直接从 GitHub 构建并运行，无需 clone 代码：
-
-```bash
-# 构建镜像（从 GitHub 拉取，约 15 秒）
-docker build -t watch-room-server https://github.com/Shawn-CV/watch-room-server.git#main
-
-# 运行
-docker run -d \
-  --name watch-room-server \
-  --restart unless-stopped \
-  -p 3001:3001 \
-  -e AUTH_KEY=your-secret-key \
-  -e ALLOWED_ORIGINS=* \
-  -e NODE_ENV=production \
-  watch-room-server
-```
-
-### Docker Compose 部署
+## 快速部署（Docker Compose）
 
 ```bash
 git clone https://github.com/Shawn-CV/watch-room-server.git
 cd watch-room-server
 cp .env.example .env   # 编辑 .env 设置 AUTH_KEY
-docker-compose up -d
+docker compose up -d --build
+```
+
+### 更新部署
+
+```bash
+cd /path/to/watch-room-server
+git pull origin main
+docker compose up -d --build
 ```
 
 ### 验证部署
 
 ```bash
-curl http://localhost:3001/health
+curl http://localhost:3002/health
 # 返回 {"status":"ok","timestamp":"...","uptime":...}
 ```
 
