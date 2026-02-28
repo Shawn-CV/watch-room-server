@@ -23,6 +23,16 @@ services:
       retries: 3
       start_period: 5s
 
+  coturn:
+    image: coturn/coturn:latest
+    container_name: coturn
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./turnserver.conf:/etc/turnserver.conf:ro
+    depends_on:
+      - watch-room-server
+
 networks:
   watch-room-network:
     driver: bridge
